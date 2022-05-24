@@ -9,7 +9,7 @@ def validateParams():
         sys.exit()
 
     if PARAMS['minHeight'] and PARAMS['maxHeight'] and PARAMS['maxHeight'] < PARAMS['minHeight']:
-        print('maxHeight cannot be less than minWidth')
+        print('maxHeight cannot be less than minHeight')
         sys.exit()
 
     for value in [PARAMS['minWidth'], PARAMS['maxWidth'], PARAMS['minHeight'], PARAMS['maxHeight']]:
