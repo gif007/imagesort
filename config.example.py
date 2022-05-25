@@ -1,5 +1,6 @@
 """
 This is the example config file for imagesort.py
+Copy this file as "config.py" to get started
 Keep this as a back up
 """
 
