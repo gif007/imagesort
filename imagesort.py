@@ -10,7 +10,17 @@ from lib import *
 from utils import formatCountDistinction
 
 
+HELP_MESSAGE = """ImageSort will filter all of the images in the current \
+directory into a subdirectory called "results" based on dimensions.
+See "config.py" to get started."""
+
 if __name__ == '__main__':
+    args = sys.argv[1:]
+    if len(args) > 0:
+        if args[0] in ['-h', '--help']:
+            print(HELP_MESSAGE)
+        sys.exit()
+
     try:
         validateParams()
         createResultsDirectory()
