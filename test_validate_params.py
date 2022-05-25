@@ -31,24 +31,24 @@ class TestLib(unittest.TestCase):
         with self.assertRaises(Exception):
             validateParams()
 
-    def test__it_throws_with_illogical_width_dimensions(self):
+    def test_it_throws_with_illogical_width_dimensions(self):
         PARAMS['minWidth'] = 100
         PARAMS['maxWidth'] = 50
         with self.assertRaises(Exception):
             validateParams()
 
-    def test__it_validates_with_logical_width_dimensions(self):
+    def test_it_validates_with_logical_width_dimensions(self):
         PARAMS['minWidth'] = 100
         PARAMS['maxWidth'] = 500
         validateParams()
 
-    def test__it_throws_with_illogical_height_dimensions(self):
+    def test_it_throws_with_illogical_height_dimensions(self):
         PARAMS['minHeight'] = 100
         PARAMS['maxHeight'] = 50
         with self.assertRaises(Exception):
             validateParams()
 
-    def test__it_validates_with_logical_height_dimensions(self):
+    def test_it_validates_with_logical_height_dimensions(self):
         PARAMS['minHeight'] = 100
         PARAMS['maxHeight'] = 500
         validateParams()
