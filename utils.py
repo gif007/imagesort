@@ -1,25 +1,28 @@
-import sys, os, shutil
+import os, shutil
 from PIL import Image
 from tqdm import tqdm
 from config import PARAMS
 
 def validateParams():
     if PARAMS['minWidth'] and PARAMS['maxWidth'] and PARAMS['maxWidth'] < PARAMS['minWidth']:
-        print('maxWidth cannot be less than minWidth')
-        sys.exit()
+        raise Exception('maxWidth cannot be less than minWidth')
 
     if PARAMS['minHeight'] and PARAMS['maxHeight'] and PARAMS['maxHeight'] < PARAMS['minHeight']:
-        print('maxHeight cannot be less than minHeight')
-        sys.exit()
+        raise Exception('maxHeight cannot be less than minHeight')
 
-    for value in [PARAMS['minWidth'], PARAMS['maxWidth'], PARAMS['minHeight'], PARAMS['maxHeight']]:
-        if value and value < 0:
-            print('Values must be positive integers')
-            sys.exit()
+    dimensionParams = ['minWidth', 'maxWidth', 'minHeight', 'maxHeight']
+    for value in dimensionParams:
+        if PARAMS[value]:
+            try:
+                PARAMS[value] = int(PARAMS[value])
+            except ValueError:
+                raise Exception('Values must be integers')
+
+            if PARAMS[value] < 0:
+                raise Exception('Values must be positive integers')
 
     if PARAMS['orientation'] and PARAMS['orientation'] not in ['landscape', 'portrait']:
-        print('Orientation must be landscape or portrait')
-        sys.exit()
+        raise Exception('Orientation must be landscape or portrait')
 
 
 def createResultsDirectory():
@@ -28,14 +31,12 @@ def createResultsDirectory():
             os.mkdir('results')
             if PARAMS['verbose']: print('Created results directory')
         except:
-            print('Failed to create results directory')
-            sys.exit()
+            raise Exception('Failed to create results directory')
     else:
         print('The current directory already contains a directory called "results". Is it okay to use this?')
         response = input('y/n ')
         if not response.lower() == 'y':
-            print('Complete')
-            sys.exit()
+            raise Exception('Quitting')
 
 
 def getAllImages():
@@ -44,14 +45,12 @@ def getAllImages():
     for item in os.listdir():
         try:
             image = Image.open(item)
+            images.append((image, item))
         except:
             continue
-        else:
-            images.append((image, item))
         
     if len(images) == 0:
-        print('Could not find images in current directory')
-        sys.exit()
+        raise Exception('Could not find images in current directory')
     else:
         return images
 
