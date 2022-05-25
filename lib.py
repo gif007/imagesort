@@ -1,19 +1,19 @@
+'''
+Library of functions for imagesort.py
+'''
+
 import os, shutil
 from PIL import Image
 from tqdm import tqdm
 from config import PARAMS
 
+
 def validateParams():
-    if PARAMS['minWidth'] and PARAMS['maxWidth'] and PARAMS['maxWidth'] < PARAMS['minWidth']:
-        raise Exception('maxWidth cannot be less than minWidth')
-
-    if PARAMS['minHeight'] and PARAMS['maxHeight'] and PARAMS['maxHeight'] < PARAMS['minHeight']:
-        raise Exception('maxHeight cannot be less than minHeight')
-
     dimensionParams = ['minWidth', 'maxWidth', 'minHeight', 'maxHeight']
     for value in dimensionParams:
         if PARAMS[value]:
             try:
+                # Sanitize values which may have been entered as strings
                 PARAMS[value] = int(PARAMS[value])
             except ValueError:
                 raise Exception('Values must be integers')
@@ -21,8 +21,12 @@ def validateParams():
             if PARAMS[value] < 0:
                 raise Exception('Values must be positive integers')
 
+    if PARAMS['minWidth'] and PARAMS['maxWidth'] and PARAMS['maxWidth'] < PARAMS['minWidth']:
+        raise Exception('maxWidth cannot be less than minWidth')
+    if PARAMS['minHeight'] and PARAMS['maxHeight'] and PARAMS['maxHeight'] < PARAMS['minHeight']:
+        raise Exception('maxHeight cannot be less than minHeight')
     if PARAMS['orientation'] and PARAMS['orientation'] not in ['landscape', 'portrait']:
-        raise Exception('Orientation must be landscape or portrait')
+        raise Exception('Orientation must be "landscape" or "portrait"')
 
 
 def createResultsDirectory():
@@ -41,6 +45,7 @@ def createResultsDirectory():
 
 def getAllImages():
     if PARAMS['verbose']: print('Gathering images')
+
     images = []
     for item in os.listdir():
         try:
@@ -57,6 +62,7 @@ def getAllImages():
 
 def filterImages(images):
     if PARAMS['verbose']: print('Filtering images')
+
     if PARAMS['orientation']:
         if PARAMS['orientation'] == 'landscape':
             images = [item for item in images if item[0].size[0] > item[0].size[1]]
@@ -65,17 +71,17 @@ def filterImages(images):
 
     if PARAMS['minWidth']:
         images = [item for item in images if item[0].size[0] >= PARAMS['minWidth']]
-
     if PARAMS['maxWidth']:
         images = [item for item in images if item[0].size[0] <= PARAMS['maxWidth']]
-
     if PARAMS['minHeight']:
         images = [item for item in images if item[0].size[1] >= PARAMS['minHeight']]
-
     if PARAMS['maxHeight']:
         images = [item for item in images if item[0].size[1] <= PARAMS['maxHeight']]
 
-    return images
+    if len(images) == 0:
+        raise Exception('All images were filtered out')
+    else:
+        return images
 
 
 def copyImagesIntoResults(images):
@@ -83,4 +89,3 @@ def copyImagesIntoResults(images):
         print('Copying %d image(s) into results directory' % len(images))
         for _, item in tqdm(images):
             shutil.copy(item, 'results')
-        if PARAMS['verbose']: print('Complete')

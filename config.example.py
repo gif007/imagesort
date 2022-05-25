@@ -1,9 +1,10 @@
 """
-This is the config file for imagesort.py
+This is the example config file for imagesort.py
+Keep this as a back up
 """
 
 PARAMS = {
-    'orientation': None, # portrait | landscape | None
+    'orientation': None, # 'portrait' | 'landscape' | None
     'minWidth': None, # integer | None
     'maxWidth': None, # integer | None
     'minHeight': None, # integer | None
