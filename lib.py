@@ -6,6 +6,7 @@ import os, shutil
 from PIL import Image
 from tqdm import tqdm
 from config import PARAMS
+from utils import formatCountDistinction
 
 
 def validateParams():
@@ -85,7 +86,8 @@ def filterImages(images):
 
 
 def copyImagesIntoResults(images):
-    if len(images) > 0:
-        print('Copying %d image(s) into results directory' % len(images))
+    count = len(images)
+    if count > 0:
+        print('Copying %d %s into results directory' % (count, formatCountDistinction('image', count)))
         for _, item in tqdm(images):
             shutil.copy(item, 'results')

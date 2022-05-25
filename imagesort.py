@@ -7,6 +7,9 @@ filters them and copies them into a subdirectory
 
 import sys, platform, subprocess
 from lib import *
+from utils import formatCountDistinction
+
+
 
 
 if __name__ == '__main__':
@@ -16,7 +19,8 @@ if __name__ == '__main__':
         images = filterImages(getAllImages())
         copyImagesIntoResults(images)
         if platform.system() == 'Linux':
-            subprocess.run(['notify-send', 'ImageSort has finished copying %d image(s)' % len(images)])
+            count = len(images)
+            subprocess.run(['notify-send', 'ImageSort has finished copying %d %s' % (count, formatCountDistinction('image', count))])
     except Exception as exc:
         print(exc)
         if platform.system() == 'Linux':
