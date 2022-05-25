@@ -88,6 +88,7 @@ def filterImages(images):
 def copyImagesIntoResults(images):
     count = len(images)
     if count > 0:
-        print('Copying %d %s into results directory' % (count, formatCountDistinction('image', count)))
+        formattedString = formatCountDistinction('image', count)
+        print('Copying %d %s into results directory' % (count, formattedString))
         for _, item in tqdm(images):
             shutil.copy(item, 'results')

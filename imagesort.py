@@ -10,17 +10,18 @@ from lib import *
 from utils import formatCountDistinction
 
 
-
-
 if __name__ == '__main__':
     try:
         validateParams()
         createResultsDirectory()
         images = filterImages(getAllImages())
         copyImagesIntoResults(images)
+
         if platform.system() == 'Linux':
             count = len(images)
-            subprocess.run(['notify-send', 'ImageSort has finished copying %d %s' % (count, formatCountDistinction('image', count))])
+            formattedString = formatCountDistinction('image', count)
+            subprocess.run(['notify-send', 'ImageSort has finished copying %d %s' % (count, formattedString)])
+            
     except Exception as exc:
         print(exc)
         if platform.system() == 'Linux':
