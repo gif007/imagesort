@@ -92,3 +92,5 @@ def copyImagesIntoResults(images):
         print('Copying %d %s into results directory' % (count, formattedString))
         for _, item in tqdm(images):
             shutil.copy(item, 'results')
+    else:
+        raise Exception('There are no images to copy')
