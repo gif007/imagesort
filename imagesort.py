@@ -23,8 +23,8 @@ if __name__ == '__main__':
 
     try:
         validateParams()
-        createResultsDirectory()
         images = filterImages(getAllImages())
+        createResultsDirectory()
         copyImagesIntoResults(images)
 
         if platform.system() == 'Linux':
