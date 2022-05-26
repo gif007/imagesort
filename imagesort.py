@@ -2,7 +2,7 @@
 
 """
 Finds all images in the current working directory,
-filters them and copies them into a subdirectory
+filters them and moves them into a subdirectory
 """
 
 import sys, platform, subprocess
@@ -25,12 +25,12 @@ if __name__ == '__main__':
         validateParams()
         images = filterImages(getAllImages())
         createResultsDirectory()
-        copyImagesIntoResults(images)
+        moveImagesIntoResults(images)
 
         if platform.system() == 'Linux':
             count = len(images)
             formattedString = formatCountDistinction('image', count)
-            subprocess.run(['notify-send', 'ImageSort has finished copying %d %s' % (count, formattedString)])
+            subprocess.run(['notify-send', 'ImageSort has finished moving %d %s' % (count, formattedString)])
             
     except Exception as exc:
         print(exc)

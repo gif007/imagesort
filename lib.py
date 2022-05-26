@@ -54,7 +54,7 @@ def getAllImages():
             images.append((image, item))
         except:
             continue
-        
+
     if len(images) == 0:
         raise Exception('Could not find images in current directory')
     else:
@@ -93,4 +93,15 @@ def copyImagesIntoResults(images):
         for _, item in tqdm(images):
             shutil.copy(item, 'results')
     else:
-        raise Exception('There are no images to copy')
+        raise Exception('There are no images to move')
+
+
+def moveImagesIntoResults(images):
+    count = len(images)
+    if count > 0:
+        formattedString = formatCountDistinction('image', count)
+        print('Moving %d %s into results directory' % (count, formattedString))
+        for _, item in tqdm(images):
+            shutil.move(item, 'results')
+    else:
+        raise Exception('There are no images to move')
